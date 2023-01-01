@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: curl-test-remote
+  name: curl-test-remote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: curl-test-remote
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: curl-test-remote
+    spec:
+      containers:
+      - image: curlimages/curl
+        command: ["/bin/sleep", "365d"]
+        imagePullPolicy: IfNotPresent
+        name: curl-test-remote
